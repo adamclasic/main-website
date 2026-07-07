@@ -1,0 +1,395 @@
+import React, { useState } from "react";
+import { ShieldCheck, Clock, Cpu, Sparkles, Terminal, Shield, ArrowRight, Award, Server } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+
+interface TeamMember {
+  name: string;
+  role: string;
+  bio: string;
+  specialization: string;
+  metric: string;
+  metricLabel: string;
+  techStack: string[];
+  avatarLetter: string;
+  latencySLA: string;
+  systemKeys: string[];
+}
+
+export default function AboutUs({ onContactClick }: { onContactClick: () => void }) {
+  const [selectedArchitect, setSelectedArchitect] = useState<number>(0);
+
+  const team: TeamMember[] = [
+    {
+      name: "Alex Sterling",
+      role: "Founder & Principal Architect",
+      bio: "Former high-frequency trading system engineer. Obsessed with sub-millisecond latencies, memory safety, and elegant code formatting. Leads overall software design direction.",
+      specialization: "Distributed Systems, Rust, Systems Programming & High-Security Cryptography",
+      metric: "99.999%",
+      metricLabel: "System Design Reliability",
+      techStack: ["Rust", "Go", "C++", "PostgreSQL", "Docker", "Kubernetes", "gRPC"],
+      avatarLetter: "AS",
+      latencySLA: "Under 15 mins",
+      systemKeys: ["SYS_CORE_INIT", "LEDGER_INTEGRITY_VERIFY", "ECDSA_SIGN_ROUTE"]
+    },
+    {
+      name: "Sarah Chen",
+      role: "Head of UI Engineering & Design Systems",
+      bio: "Visual purist with over a decade of design experience. Sarah bridges the gap between state-of-the-art visual systems and raw performance. Believes animations must be physically modeled.",
+      specialization: "Ergonomics, Micro-Interactions, CSS Canvas Engineering & Design Mechanics",
+      metric: "60 FPS",
+      metricLabel: "Strict Target Frame Rate",
+      techStack: ["React", "TypeScript", "TailwindCSS", "Framer Motion", "D3.js", "WebGL", "Vite"],
+      avatarLetter: "SC",
+      latencySLA: "Under 30 mins",
+      systemKeys: ["UI_RENDER_PIPELINE", "FRAME_TIMING_ALIGN", "ACCESSIBILITY_AUDIT"]
+    },
+    {
+      name: "Marcus Vance",
+      role: "Lead AI Systems & Machine Learning Engineer",
+      bio: "Authored specialized prompt routing frameworks. Marcus is an expert in context caching, dense embedding spaces, and connecting standard business middleware with heavy Gemini models.",
+      specialization: "LLM Pipeline Routing, Context Windows, Neural Embeddings & Vector Stores",
+      metric: "1.4s",
+      metricLabel: "Average AI Token Stream TTFT",
+      techStack: ["Python", "PyTorch", "Gemini API", "Pinecone", "LangChain", "FastAPI", "NodeJS"],
+      avatarLetter: "MV",
+      latencySLA: "Under 45 mins",
+      systemKeys: ["EMBEDDING_GENERATOR", "MODEL_ROUTER_PING", "PROMPT_TEMPLATE_CACHE"]
+    },
+    {
+      name: "Elena Rostova",
+      role: "Lead DevOps & Scalability Architect",
+      bio: "Keeps systems online when traffic swells 100x. Elena is a certified Kubernetes guru and has automated server configurations for startups and multinational fintech conglomerates alike.",
+      specialization: "Multi-Region Redundancy, Kubernetes, Autoscaling Mechanics & Ingress Traffic Rules",
+      metric: "0.0ms",
+      metricLabel: "Auto-Scale Recovery Time",
+      techStack: ["Terraform", "Google Cloud Platform", "AWS", "GitHub Actions", "Prometheus", "Nginx"],
+      avatarLetter: "ER",
+      latencySLA: "Under 20 mins",
+      systemKeys: ["INFRASTRUCTURE_TERRAFORM", "LOAD_BALANCER_HEURISTIC", "SECURE_INGRESS_PROXY"]
+    }
+  ];
+
+  const values = [
+    {
+      icon: ShieldCheck,
+      title: "Strict Code Quality",
+      description: "We don't do 'acceptable' or 'good enough'. Every line we write undergoes strict linting, automatic testing, and rigorous peer review to ensure absolute stability and readability."
+    },
+    {
+      icon: Clock,
+      title: "Predictable Agile Sprints",
+      description: "We value your time. We scope deliverables with surgical accuracy, providing real-time deployment previews on every feature branch so you are always in the loop."
+    },
+    {
+      icon: Cpu,
+      title: "High-Performance Architecture",
+      description: "Our backends are engineered for scale. We design lightweight database queries, build intelligent CDN caches, and implement optimal protocols (such as HTTP/3 and gRPC) as default configurations."
+    },
+    {
+      icon: Sparkles,
+      title: "Aesthetic Ergonomics",
+      description: "We build digital tools that feel like physical objects. Fluid typography, deliberate negative space, responsive layouts, and eye-friendly, beautiful color pairings are our hallmarks."
+    }
+  ];
+
+  const activeArchitect = team[selectedArchitect];
+
+  return (
+    <section id="about-us" className="py-20 bg-white border-t border-zinc-100 relative overflow-hidden">
+      {/* Decorative gradient elements */}
+      <div className="absolute top-1/4 left-0 w-80 h-80 bg-brand-red/5 rounded-full filter blur-[120px] pointer-events-none"></div>
+      <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-brand-red/5 rounded-full filter blur-[120px] pointer-events-none"></div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* Page Title Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-red/5 border border-brand-red/10 rounded-md mb-3">
+            <Award className="w-3.5 h-3.5 text-brand-red" />
+            <span className="font-mono text-xs text-brand-red font-medium tracking-wider uppercase">
+              // Studio Profile
+            </span>
+          </div>
+          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-brand-black tracking-tight uppercase leading-none">
+            ENGINEERING WITHOUT <br />
+            <span className="text-brand-red">COMPROMISE</span>.
+          </h1>
+          <p className="mt-4 text-zinc-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+            Codebox Labs is a boutique custom software and systems design studio. 
+            We partner with visionary companies to turn ambitious specifications into 
+            battle-tested, clean, high-performance software.
+          </p>
+        </div>
+
+        {/* Our Story Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-24">
+          <div className="lg:col-span-7 text-left space-y-6">
+            <div className="space-y-2">
+              <span className="font-mono text-xs text-zinc-400 uppercase tracking-widest block">// Origins & Mission</span>
+              <h2 className="font-display text-2xl font-extrabold text-brand-black tracking-tight uppercase">
+                A Mission to Elevate Digital Craftsmanship
+              </h2>
+            </div>
+            <p className="text-zinc-600 text-sm sm:text-base leading-relaxed font-sans">
+              Founded by a group of systems architects and design perfectionists, Codebox Labs was born out of frustration with the modern software landscape—where rushed deadlines and over-engineered, slow-performing frameworks have become the norm.
+            </p>
+            <p className="text-zinc-600 text-sm sm:text-base leading-relaxed font-sans">
+              We operate differently. We treat coding as a fine craft. By maintaining a highly-vetted team of senior architects and designers, we keep our operations streamlined, our communication direct, and our output pristine. Whether you need a lightning-fast Web dashboard, an interactive mobile application, or a highly-optimized AI orchestration engine, we deliver it with extreme predictability and unmatched code quality.
+            </p>
+            <div className="pt-4 flex flex-wrap gap-4">
+              <div className="flex items-center gap-2 font-mono text-xs text-zinc-500">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-red"></span>
+                <span>Est. 2018</span>
+              </div>
+              <div className="flex items-center gap-2 font-mono text-xs text-zinc-500">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-red"></span>
+                <span>100% Retainer Rate</span>
+              </div>
+              <div className="flex items-center gap-2 font-mono text-xs text-zinc-500">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-red"></span>
+                <span>Active Nodes globally</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Elegant Sidebar Console Graphic for About Us */}
+          <div className="lg:col-span-5 relative">
+            <div className="bg-zinc-50 border border-zinc-200 rounded-lg p-6 text-left font-mono text-xs text-zinc-500 space-y-4 shadow-sm">
+              <div className="flex items-center justify-between border-b border-zinc-200 pb-3">
+                <div className="flex items-center gap-1.5">
+                  <Server className="w-3.5 h-3.5 text-brand-red" />
+                  <span className="text-[10px] uppercase font-bold text-brand-black tracking-wider">STUDIO_METRICS_DUMP</span>
+                </div>
+                <span className="text-[9px] bg-brand-red/10 text-brand-red px-1.5 py-0.5 rounded font-bold">LIVE</span>
+              </div>
+              <div className="space-y-2.5">
+                <div className="flex justify-between items-center border-b border-zinc-100 pb-2">
+                  <span>DEPLOYED_BUILDS:</span>
+                  <span className="text-brand-black font-semibold">120+ STABLE</span>
+                </div>
+                <div className="flex justify-between items-center border-b border-zinc-100 pb-2">
+                  <span>AVERAGE_SLA_SPEED:</span>
+                  <span className="text-brand-black font-semibold">99.8% ON TIME</span>
+                </div>
+                <div className="flex justify-between items-center border-b border-zinc-100 pb-2">
+                  <span>REUSABLE_COMPONENTS:</span>
+                  <span className="text-brand-black font-semibold">4.8k DESIGN_TOKENS</span>
+                </div>
+                <div className="flex justify-between items-center border-b border-zinc-100 pb-2">
+                  <span>CLIENT_SATISFACTION:</span>
+                  <span className="text-brand-black font-semibold">4.95 / 5.00</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span>SECURITY_AUDITS:</span>
+                  <span className="text-brand-black font-semibold">PASSED (SOC-2 TYPE II)</span>
+                </div>
+              </div>
+              <div className="pt-2">
+                <div className="w-full bg-zinc-200 h-1.5 rounded-full overflow-hidden">
+                  <div className="bg-brand-red h-full w-[96%]" />
+                </div>
+                <span className="text-[8px] text-zinc-400 block mt-1 uppercase">Allocated Bandwidth: 96% Optimization Index</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Core Pillars / Values Section */}
+        <div className="border-t border-zinc-100 pt-20 mb-24">
+          <div className="text-center max-w-2xl mx-auto mb-16 space-y-2">
+            <span className="font-mono text-xs text-brand-red uppercase tracking-widest block">// Core Philosophies</span>
+            <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-brand-black tracking-tight uppercase">
+              THE PILLARS OF OUR CRAFT
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
+            {values.map((val, idx) => {
+              const Icon = val.icon;
+              return (
+                <div 
+                  key={idx} 
+                  className="bg-white border border-zinc-200 rounded-lg p-6 shadow-sm hover:border-brand-red/50 hover:shadow transition-all duration-300 relative group flex flex-col justify-between"
+                >
+                  <div className="absolute top-0 left-0 w-full h-[2px] bg-brand-red scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                  <div>
+                    <div className="w-10 h-10 rounded bg-zinc-50 border border-zinc-200 flex items-center justify-center text-zinc-500 group-hover:text-brand-red group-hover:bg-brand-red/5 group-hover:border-brand-red/20 transition-all duration-300 mb-6">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <h3 className="font-display text-base font-bold text-brand-black group-hover:text-brand-red transition-colors duration-200 uppercase">
+                      {val.title}
+                    </h3>
+                    <p className="mt-3 text-zinc-600 text-xs sm:text-sm leading-relaxed font-sans">
+                      {val.description}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Lead Architects Interactive Panel */}
+        <div className="border-t border-zinc-100 pt-20 pb-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 text-left">
+            
+            {/* Left selector column */}
+            <div className="lg:col-span-5 space-y-6">
+              <div className="space-y-2">
+                <span className="font-mono text-xs text-brand-red uppercase tracking-widest block">// Engineering Roster</span>
+                <h2 className="font-display text-2xl sm:text-3xl font-black text-brand-black tracking-tight uppercase">
+                  MEET OUR LEAD ARCHITECTS
+                </h2>
+                <p className="text-zinc-600 text-xs sm:text-sm font-sans leading-relaxed">
+                  We don't hire entry-level contractors. Every member on your project is a senior engineer or systems designer with proven expertise.
+                </p>
+              </div>
+
+              {/* Selector buttons */}
+              <div className="space-y-3 pt-4">
+                {team.map((member, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setSelectedArchitect(idx)}
+                    className={`w-full p-4 rounded-lg border text-left flex items-center justify-between transition-all duration-200 cursor-pointer ${
+                      selectedArchitect === idx
+                        ? "bg-zinc-50 border-brand-red"
+                        : "bg-white border-zinc-200 hover:border-zinc-300"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`w-8 h-8 rounded-full font-mono text-xs font-bold flex items-center justify-center ${
+                        selectedArchitect === idx ? "bg-brand-red text-white" : "bg-zinc-100 text-zinc-600"
+                      }`}>
+                        {member.avatarLetter}
+                      </div>
+                      <div>
+                        <span className={`block text-xs font-bold font-mono tracking-wider uppercase ${
+                          selectedArchitect === idx ? "text-brand-red" : "text-brand-black"
+                        }`}>
+                          {member.name}
+                        </span>
+                        <span className="text-[10px] text-zinc-400 font-sans block">{member.role}</span>
+                      </div>
+                    </div>
+                    <span className="font-mono text-[9px] text-zinc-400">
+                      {selectedArchitect === idx ? "[ACTIVE]" : "DECRYPT"}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Right details sandbox column */}
+            <div className="lg:col-span-7">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={selectedArchitect}
+                  initial={{ opacity: 0, x: 15 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -15 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-zinc-50 border border-zinc-200 rounded-lg p-6 sm:p-8 space-y-6 text-left relative overflow-hidden shadow-sm"
+                >
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-brand-red/5 rounded-full filter blur-xl pointer-events-none"></div>
+
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-200 pb-4">
+                    <div>
+                      <span className="font-mono text-[9px] text-brand-red uppercase tracking-widest font-bold">
+                        &gt; {activeArchitect.role}
+                      </span>
+                      <h3 className="font-display text-xl sm:text-2xl font-extrabold text-brand-black tracking-tight mt-1 uppercase">
+                        {activeArchitect.name}
+                      </h3>
+                    </div>
+                    <div className="p-3 bg-white border border-zinc-200 rounded text-center min-w-[120px]">
+                      <span className="font-mono text-[9px] text-zinc-400 uppercase tracking-widest block leading-none">
+                        {activeArchitect.metricLabel}
+                      </span>
+                      <span className="font-display font-black text-lg sm:text-xl text-brand-red block mt-1.5 leading-none">
+                        {activeArchitect.metric}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Bio */}
+                  <div className="space-y-2">
+                    <span className="font-mono text-[9px] text-zinc-400 uppercase tracking-widest block">// Professional Dossier</span>
+                    <p className="text-zinc-600 text-xs sm:text-sm leading-relaxed font-sans">
+                      {activeArchitect.bio}
+                    </p>
+                  </div>
+
+                  {/* Core Specialty */}
+                  <div className="p-3 bg-white border border-zinc-100 rounded space-y-1">
+                    <span className="font-mono text-[9px] text-zinc-400 uppercase tracking-widest block leading-none">
+                      Primary Subject Competency
+                    </span>
+                    <span className="font-mono text-xs text-brand-black font-semibold block mt-1">
+                      {activeArchitect.specialization}
+                    </span>
+                  </div>
+
+                  {/* Tech stack badges */}
+                  <div className="space-y-2">
+                    <span className="font-mono text-[9px] text-zinc-400 uppercase tracking-widest block">// Technology Specializations</span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {activeArchitect.techStack.map((tech, idx) => (
+                        <span
+                          key={idx}
+                          className="px-2 py-0.5 bg-white border border-zinc-200 rounded font-mono text-[10px] text-zinc-500 uppercase tracking-wider"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* System Keys Console */}
+                  <div className="pt-4 border-t border-zinc-200 space-y-3">
+                    <span className="font-mono text-[9px] text-zinc-400 uppercase tracking-widest block leading-none">
+                      // System Access Security Credentials
+                    </span>
+                    <div className="bg-zinc-900 text-[10px] font-mono p-3 rounded text-zinc-400 space-y-1 overflow-x-auto">
+                      <p className="text-brand-red">&gt; whoami --credentials</p>
+                      <p className="text-zinc-200">User: {activeArchitect.name.toLowerCase().replace(" ", "_")}@codeboxlabs.com</p>
+                      <p className="text-zinc-200">Emergency SLA Priority Response: {activeArchitect.latencySLA}</p>
+                      <div className="pt-2 text-[9px] space-y-0.5 text-zinc-500 border-t border-zinc-800 mt-2">
+                        {activeArchitect.systemKeys.map((key, kIdx) => (
+                          <p key={kIdx} className="truncate">● SECURITY_VAL_TOKEN: [ {key} == APPROVED_VERIFICATION_PASS ]</p>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Call to action at bottom */}
+        <div className="mt-20 p-8 sm:p-12 bg-zinc-50 border border-zinc-200 rounded-lg text-center relative overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-brand-red/5 rounded-full filter blur-3xl pointer-events-none"></div>
+          <h3 className="font-display text-xl sm:text-2xl font-black text-brand-black tracking-tight uppercase">
+            READY TO COLLABORATE WITH SENIOR ENGINEERS?
+          </h3>
+          <p className="mt-3 text-zinc-600 text-xs sm:text-sm font-sans max-w-xl mx-auto leading-relaxed">
+            Skip the middle management. Speak directly to our lead system architects and design leads to define, build, and deploy your software stack.
+          </p>
+          <div className="mt-6 flex flex-col sm:flex-row gap-4 items-center justify-center">
+            <button
+              onClick={onContactClick}
+              className="bg-brand-red hover:bg-brand-red-hover text-white text-xs font-mono font-bold uppercase tracking-wider px-6 py-3.5 rounded transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow"
+            >
+              Contact Lead Architects
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  );
+}

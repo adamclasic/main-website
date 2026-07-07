@@ -1,0 +1,448 @@
+import React, { useState, useEffect } from "react";
+import { Mail, MapPin, Clock, ShieldCheck, Terminal, AlertTriangle, Send, SendHorizontal, Check, RefreshCw, Wifi } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+
+export default function ContactUs() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    serviceType: "saas-product",
+    budget: "$10k - $25k",
+    message: ""
+  });
+
+  const [isTransmitting, setIsTransmitting] = useState(false);
+  const [logs, setLogs] = useState<string[]>([]);
+  const [isTransmitted, setIsTransmitted] = useState(false);
+
+  // Network ping simulator state
+  const [pingMs, setPingMs] = useState<number>(24);
+  const [jitterMs, setJitterMs] = useState<number>(2);
+  const [packetLoss, setPacketLoss] = useState<number>(0);
+
+  // Simulate network pings
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const base = 20 + Math.floor(Math.random() * 15);
+      const jitter = 1 + Math.floor(Math.random() * 4);
+      setPingMs(base);
+      setJitterMs(jitter);
+    }, 2000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const serviceOptions = [
+    { label: "Responsive SaaS Dashboard", value: "saas-product" },
+    { label: "Native iOS / Android App", value: "native-mobile" },
+    { label: "Gemini Model & AI Integrations", value: "ai-systems" },
+    { label: "Distributed Legacy Systems Migration", value: "distributed-migration" },
+    { label: "Other Technical Project", value: "other" }
+  ];
+
+  const budgetOptions = [
+    { label: "$5,000 - $10,000", value: "$5k - $10k" },
+    { label: "$10,000 - $25,000", value: "$10k - $25k" },
+    { label: "$25,000 - $50,000", value: "$25k - $50k" },
+    { label: "$50,000 - $100,000+", value: "$50k - $100k+" }
+  ];
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email || !formData.message) {
+      return;
+    }
+
+    setIsTransmitting(true);
+    setLogs([]);
+
+    const logSteps = [
+      "⚡ Initializing secure egress sockets...",
+      "🔑 Resolving DNS: hello@codeboxlabs.com -> TXT secure-tls-route",
+      "📦 Encrypting payload with ECDSA-256 standard cryptographic key...",
+      "🔗 Tunneling through redundant secure gateways...",
+      "📡 PING check: Gateway responsive (RTT: " + pingMs + "ms)...",
+      "📨 Formatting system config packet structure...",
+      "⚙️ Injecting client telemetry & budget specifications...",
+      "✅ Handshake verified. Transmitting secure payload package...",
+      "🎉 Transmission Secured! Payload registered in Lead Architect's queue."
+    ];
+
+    let currentStep = 0;
+    const interval = setInterval(() => {
+      if (currentStep < logSteps.length) {
+        setLogs((prev) => [...prev, logSteps[currentStep]]);
+        currentStep++;
+      } else {
+        clearInterval(interval);
+        setTimeout(() => {
+          setIsTransmitting(false);
+          setIsTransmitted(true);
+        }, 800);
+      }
+    }, 450);
+  };
+
+  const resetForm = () => {
+    setFormData({
+      name: "",
+      email: "",
+      serviceType: "saas-product",
+      budget: "$10k - $25k",
+      message: ""
+    });
+    setIsTransmitted(false);
+    setLogs([]);
+  };
+
+  return (
+    <section id="contact-us" className="py-20 bg-white border-t border-zinc-100 relative overflow-hidden">
+      {/* Soft crimson ambient backgrounds */}
+      <div className="absolute top-1/3 left-1/4 -translate-y-1/2 w-[350px] h-[350px] bg-brand-red/5 rounded-full filter blur-[120px] pointer-events-none"></div>
+      <div className="absolute bottom-10 right-10 w-96 h-96 bg-brand-red/5 rounded-full filter blur-[150px] pointer-events-none"></div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* Title Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-red/5 border border-brand-red/10 rounded-md mb-3">
+            <Terminal className="w-3.5 h-3.5 text-brand-red" />
+            <span className="font-mono text-xs text-brand-red font-medium tracking-wider uppercase">
+              // Direct Line
+            </span>
+          </div>
+          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-brand-black tracking-tight uppercase leading-none">
+            ESTABLISH A SECURE <br />
+            <span className="text-brand-red">COMMUNICATION</span> PIPE.
+          </h1>
+          <p className="mt-4 text-zinc-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+            Brief our senior software architects. Avoid sales representatives and 
+            middle-management queues. Tell us exactly what you want to build.
+          </p>
+        </div>
+
+        {/* Form and info grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          
+          {/* Left Column: Interactive Contact Form (7 Columns) */}
+          <div className="lg:col-span-7 bg-white border border-zinc-200 rounded-lg p-6 sm:p-8 text-left shadow-sm">
+            <AnimatePresence mode="wait">
+              {!isTransmitting && !isTransmitted && (
+                <motion.form
+                  key="contact-form"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onSubmit={handleFormSubmit}
+                  className="space-y-6"
+                >
+                  <div className="space-y-2">
+                    <span className="font-mono text-xs text-zinc-400 uppercase tracking-widest block">// 01. Identification</span>
+                    <h3 className="font-display text-lg font-bold text-brand-black uppercase">
+                      Client Parameters
+                    </h3>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="font-mono text-[10px] text-zinc-500 uppercase tracking-wider block">Full Name / Organization</label>
+                      <input
+                        type="text"
+                        name="name"
+                        required
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        placeholder="e.g., Alex Sterling"
+                        className="w-full bg-zinc-50 border border-zinc-200 hover:border-zinc-300 focus:border-brand-red focus:bg-white focus:outline-none rounded p-3 font-sans text-xs sm:text-sm text-brand-black transition-all duration-200"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="font-mono text-[10px] text-zinc-500 uppercase tracking-wider block">Work Email Address</label>
+                      <input
+                        type="email"
+                        name="email"
+                        required
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="e.g., alex@company.com"
+                        className="w-full bg-zinc-50 border border-zinc-200 hover:border-zinc-300 focus:border-brand-red focus:bg-white focus:outline-none rounded p-3 font-sans text-xs sm:text-sm text-brand-black transition-all duration-200"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="font-mono text-[10px] text-zinc-500 uppercase tracking-wider block">Primary Service Requirement</label>
+                      <select
+                        name="serviceType"
+                        value={formData.serviceType}
+                        onChange={handleInputChange}
+                        className="w-full bg-zinc-50 border border-zinc-200 hover:border-zinc-300 focus:border-brand-red focus:bg-white focus:outline-none rounded p-3 font-sans text-xs sm:text-sm text-brand-black cursor-pointer transition-all duration-200"
+                      >
+                        {serviceOptions.map((opt) => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="font-mono text-[10px] text-zinc-500 uppercase tracking-wider block">Rough Investment Range</label>
+                      <select
+                        name="budget"
+                        value={formData.budget}
+                        onChange={handleInputChange}
+                        className="w-full bg-zinc-50 border border-zinc-200 hover:border-zinc-300 focus:border-brand-red focus:bg-white focus:outline-none rounded p-3 font-sans text-xs sm:text-sm text-brand-black cursor-pointer transition-all duration-200"
+                      >
+                        {budgetOptions.map((opt) => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <div className="flex justify-between items-center">
+                      <label className="font-mono text-[10px] text-zinc-500 uppercase tracking-wider block">Brief Project Outline</label>
+                      <span className="font-mono text-[9px] text-zinc-400 uppercase">Describe specifications explicitly</span>
+                    </div>
+                    <textarea
+                      name="message"
+                      required
+                      rows={5}
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      placeholder="e.g., We need to construct a custom React/Vite SaaS UI that accesses a secure Express middleware pipeline. Must include high-performance vector mapping and handle up to 5,000 live WebSocket subscriptions. Local storage persistence is required..."
+                      className="w-full bg-zinc-50 border border-zinc-200 hover:border-zinc-300 focus:border-brand-red focus:bg-white focus:outline-none rounded p-3 font-sans text-xs sm:text-sm text-brand-black transition-all duration-200 leading-relaxed"
+                    />
+                  </div>
+
+                  {/* Submit Button */}
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      className="w-full bg-brand-red hover:bg-brand-red-hover text-white font-mono text-xs font-bold uppercase tracking-wider py-3.5 rounded transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow"
+                    >
+                      Establish Connection
+                      <SendHorizontal className="w-4 h-4" />
+                    </button>
+                  </div>
+                </motion.form>
+              )}
+
+              {/* Secure Egress Transmission Terminal Loading Screen */}
+              {isTransmitting && (
+                <motion.div
+                  key="transmitting-log"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="space-y-6 py-6"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-2.5 h-2.5 bg-brand-red animate-ping rounded-full" />
+                    <span className="font-mono text-xs text-brand-red font-bold uppercase tracking-widest">
+                      TRANSMITTING SYSTEM CONFIG_PACKET...
+                    </span>
+                  </div>
+
+                  <div className="bg-zinc-950 border border-zinc-900 rounded-lg p-5 font-mono text-[11px] text-zinc-400 space-y-2 max-h-[300px] overflow-y-auto">
+                    {logs.map((log, idx) => (
+                      <p key={idx} className="leading-relaxed">
+                        {log.includes("🎉") ? (
+                          <span className="text-emerald-400 font-bold">{log}</span>
+                        ) : log.includes("✅") ? (
+                          <span className="text-emerald-400">{log}</span>
+                        ) : (
+                          <span>{log}</span>
+                        )}
+                      </p>
+                    ))}
+                    <div className="animate-pulse flex items-center gap-1 text-zinc-500 pt-1">
+                      <span>guest@codebox:~$</span>
+                      <span className="w-2 h-3.5 bg-brand-red inline-block" />
+                    </div>
+                  </div>
+
+                  <div className="text-center py-4">
+                    <p className="font-sans text-xs text-zinc-500">
+                      Constructing symmetric socket connections. Please do not close the window.
+                    </p>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Complete Transmission Success Box */}
+              {isTransmitted && (
+                <motion.div
+                  key="transmission-success"
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="space-y-6 text-center py-8 relative"
+                >
+                  <div className="w-14 h-14 bg-brand-red/5 border border-brand-red/20 rounded-full flex items-center justify-center mx-auto mb-5 text-brand-red">
+                    <Check className="w-7 h-7" />
+                  </div>
+
+                  <div className="space-y-2">
+                    <h3 className="font-display text-xl sm:text-2xl font-black text-brand-black tracking-tight uppercase">
+                      TRANSMISSION SECURED & ROUTED
+                    </h3>
+                    <p className="text-zinc-600 text-xs sm:text-sm font-sans max-w-md mx-auto leading-relaxed">
+                      Hi, <b>{formData.name}</b>. Your system configuration has been safely encrypted, 
+                      registered, and assigned to our Lead Architects queue.
+                    </p>
+                  </div>
+
+                  <div className="bg-zinc-50 border border-zinc-200 p-4 rounded-md text-left font-mono text-[10px] text-zinc-500 space-y-1 max-w-sm mx-auto">
+                    <p>&gt; SECURE GATEWAY ID: GATE_ROUTE_HOU_VAN</p>
+                    <p>&gt; CLIENT OUTLINE: {formData.name}</p>
+                    <p>&gt; ASSIGNED SLA PRIORITY: UNDER 120 MINS</p>
+                    <p>&gt; PREFERRED SEGMENT: {formData.serviceType.toUpperCase()}</p>
+                    <p>&gt; BUDGET BRACKET: {formData.budget}</p>
+                  </div>
+
+                  <div className="pt-4 flex justify-center">
+                    <button
+                      onClick={resetForm}
+                      className="px-6 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 hover:text-brand-black border border-zinc-200 rounded font-mono text-xs tracking-wider uppercase transition-all duration-200 flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <RefreshCw className="w-3.5 h-3.5" />
+                      Reset Terminal Pipe
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Right Column: Office coordinates, status & ping utility (5 Columns) */}
+          <div className="lg:col-span-5 space-y-6 text-left">
+            
+            {/* Real-time Gateway Health Check Widget */}
+            <div className="bg-zinc-50 border border-zinc-200 rounded-lg p-6 relative overflow-hidden shadow-sm">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-brand-red/5 rounded-full filter blur-xl pointer-events-none"></div>
+
+              <div className="flex items-center justify-between border-b border-zinc-200 pb-3 mb-4">
+                <div className="flex items-center gap-2">
+                  <Wifi className="w-4 h-4 text-brand-red animate-pulse" />
+                  <span className="font-mono text-[10px] font-bold text-brand-black uppercase tracking-wider">Gateway Telemetry</span>
+                </div>
+                <div className="flex items-center gap-1.5 font-mono text-[9px] text-emerald-600 bg-emerald-50 border border-emerald-100 px-1.5 py-0.5 rounded">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+                  <span>CORE_ONLINE</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white border border-zinc-200/60 p-3 rounded text-left">
+                  <span className="font-mono text-[8px] text-zinc-400 uppercase tracking-widest block leading-none">Gateway Latency</span>
+                  <span className="font-mono font-black text-brand-black text-base sm:text-lg block mt-1.5">
+                    {pingMs}ms <span className="text-[10px] text-zinc-400 font-normal">RTT</span>
+                  </span>
+                </div>
+                <div className="bg-white border border-zinc-200/60 p-3 rounded text-left">
+                  <span className="font-mono text-[8px] text-zinc-400 uppercase tracking-widest block leading-none">Socket Jitter</span>
+                  <span className="font-mono font-black text-brand-black text-base sm:text-lg block mt-1.5">
+                    ± {jitterMs}ms <span className="text-[10px] text-zinc-400 font-normal">SLA</span>
+                  </span>
+                </div>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-zinc-200/80 font-mono text-[10px] text-zinc-500 leading-relaxed space-y-1">
+                <p>● DNS_SECURE: verified via DNSSEC keys</p>
+                <p>● TLS_ENGINE: Cipher TLS_AES_256_GCM_SHA384 active</p>
+                <p>● GATEWAY NODE: US-WEST_VAN_PORT_3000</p>
+              </div>
+            </div>
+
+            {/* General Contact Info Card */}
+            <div className="bg-white border border-zinc-200 rounded-lg p-6 space-y-6 shadow-sm">
+              <h3 className="font-mono text-xs text-brand-red uppercase tracking-widest border-b border-zinc-100 pb-3">
+                // System Coordinates
+              </h3>
+
+              <div className="space-y-4">
+                {/* Mail link */}
+                <div className="flex gap-3">
+                  <div className="p-2 bg-zinc-50 border border-zinc-200 rounded h-10 w-10 flex items-center justify-center text-brand-red">
+                    <Mail className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="font-mono text-[10px] text-zinc-400 uppercase tracking-wider block">Direct General Inquiries</span>
+                    <a
+                      href="mailto:hello@codeboxlabs.com"
+                      className="font-mono text-xs sm:text-sm text-brand-black hover:text-brand-red transition-colors font-semibold block mt-0.5"
+                    >
+                      hello@codeboxlabs.com
+                    </a>
+                  </div>
+                </div>
+
+                {/* HQ Houston */}
+                <div className="flex gap-3">
+                  <div className="p-2 bg-zinc-50 border border-zinc-200 rounded h-10 w-10 flex items-center justify-center text-brand-red">
+                    <MapPin className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="font-mono text-[10px] text-zinc-400 uppercase tracking-wider block">Texas HQ Office</span>
+                    <span className="font-sans text-xs sm:text-sm text-zinc-700 block mt-0.5 leading-relaxed">
+                      1001 Fannin St, Houston, TX 77002
+                    </span>
+                  </div>
+                </div>
+
+                {/* Lab Vancouver */}
+                <div className="flex gap-3">
+                  <div className="p-2 bg-zinc-50 border border-zinc-200 rounded h-10 w-10 flex items-center justify-center text-brand-red">
+                    <MapPin className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="font-mono text-[10px] text-zinc-400 uppercase tracking-wider block">Pacific Engineering Lab</span>
+                    <span className="font-sans text-xs sm:text-sm text-zinc-700 block mt-0.5 leading-relaxed">
+                      555 Burrard St, Vancouver, BC V7X 1M8
+                    </span>
+                  </div>
+                </div>
+
+                {/* Response SLA */}
+                <div className="flex gap-3">
+                  <div className="p-2 bg-zinc-50 border border-zinc-200 rounded h-10 w-10 flex items-center justify-center text-brand-red">
+                    <Clock className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="font-mono text-[10px] text-zinc-400 uppercase tracking-wider block">Operational Window & SLA</span>
+                    <span className="font-sans text-xs sm:text-sm text-zinc-700 block mt-0.5 leading-relaxed">
+                      08:00 - 18:00 Central (US/Canada).<br />
+                      Active Client SLA Priority Support: 24/7/365.
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Simple Help / Guarantee */}
+            <div className="p-4 bg-zinc-50 border border-zinc-200 rounded-md font-sans text-xs text-zinc-500 leading-relaxed flex items-start gap-3">
+              <ShieldCheck className="w-5 h-5 text-brand-red shrink-0 mt-0.5" />
+              <div>
+                <p className="font-bold text-brand-black uppercase font-mono text-[10px] tracking-wider mb-1">
+                  100% Privacy Protection
+                </p>
+                We do not track, share, or sell your project details. All communication is protected under our strict pre-project non-disclosure commitment.
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  );
+}
